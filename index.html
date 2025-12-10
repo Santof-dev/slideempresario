@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profissão: Empresário | Projeto ADS</title>
+    <style>
+        /* =========================================
+           CSS (ESTILOS E DESIGN)
+           ========================================= */
+        :root {
+            --bg-color: #121212;         /* Fundo da página */
+            --card-bg: #1e1e1e;          /* Fundo dos cartões */
+            --text-primary: #e0e0e0;     /* Texto principal */
+            --text-secondary: #a0a0a0;   /* Texto secundário */
+            --accent-color: #00d4ff;     /* Cor de destaque (Ciano Tecnológico) */
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Scrollbar personalizada (estilo Dark) */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-color);
+        }
+
+        /* Container Principal */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Cards (Cartões de Conteúdo) */
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border-left: 4px solid var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.15);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #fff;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: var(--accent-color);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p, li {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        ul {
+            padding-left: 20px;
+            list-style-type: square;
+        }
+
+        ul li::marker {
+            color: var(--accent-color);
+        }
+
+        /* Grid Layout para telas maiores */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        @media(min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Tabela Estilizada */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            min-width: 600px; /* Garante scroll no mobile */
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        .comparison-table th {
+            background-color: #2c2c2c;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table tr:hover {
+            background-color: #252525;
+        }
+
+        /* Seção de Entrevista (Accordion) */
+        .accordion-item {
+            background-color: #252525;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .accordion-header {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #fff;
+            transition: background 0.3s;
+        }
+
+        .accordion-header:hover {
+            background-color: #333;
+            color: var(--accent-color);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #1a1a1a;
+            padding: 0 15px;
+        }
+
+        .accordion-content p {
+            padding: 15px 0;
+            border-top: 1px solid #333;
+            color: #ccc;
+        }
+
+        .icon {
+            transition: transform 0.3s;
+            font-size: 0.8rem;
+        }
+
+        /* Classe ativada via JS */
+        .active .icon {
+            transform: rotate(180deg);
+        }
+
+        .active .accordion-header {
+            color: var(--accent-color);
+        }
+
+        /* Botão Voltar ao Topo */
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            font-size: 20px;
+            border: none;
+            outline: none;
+            background-color: var(--accent-color);
+            color: #000;
+            cursor: pointer;
+            padding: 15px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+            transition: transform 0.2s;
+        }
+
+        #backToTop:hover {
+            background-color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid #333;
+            margin-top: 40px;
+            color: #555;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Profissão: Empresário</h1>
+    </header>
+
+    <div class="container">
+
+        <section class="card">
+            <h2>Descrição e História</h2>
+            <p><strong>2. Profissão Escolhida:</strong> Empresário.</p>
+            <h3>3. O que faz?</h3>
+            <p>O empresário administra, organiza e assume a responsabilidade por um negócio. Toma decisões estratégicas, identifica oportunidades e coordena equipes visando crescimento e estabilidade.</p>
+            <h3>4. Origem</h3>
+            <p>Surgiu com o comércio antigo, mas consolidou-se na Revolução Industrial com a necessidade de gestão estruturada para grandes empresas.</p>
+        </section>
+
+        <section class="card">
+            <h2>Mercado e Desafios</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>5. Onde Atua</h3>
+                    <ul>
+                        <li>Comércio e Varejo</li>
+                        <li>Tecnologia e Inovação</li>
+                        <li>Indústria e Agronegócio</li>
+                        <li>Serviços (Saúde, Educação, etc.)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>6. Atividades Diárias</h3>
+                    <ul>
+                        <li>Planejamento Estratégico</li>
+                        <li>Gestão Financeira</li>
+                        <li>Liderança de Pessoas</li>
+                        <li>Negociação e Marketing</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>7. Desafios Principais</h3>
+            <p>Competição intensa, burocracia brasileira, impostos elevados, gestão de conflitos internos e pressão por inovação.</p>
+
+            <h3>8. Como Superar</h3>
+            <p>Através de planejamento estratégico, controle financeiro, networking e uso intensivo de tecnologia.</p>
+        </section>
+
+        <section class="card">
+            <h2>Perfil e Remuneração</h2>
+            <p><strong>9. Média Salarial:</strong> Varia drasticamente. Pequenos empresários podem retirar entre R$ 2.000 e R$ 10.000 mensais, mas o início do negócio muitas vezes não gera lucro imediato.</p>
+            
+            <h3>11. CHA (Conhecimentos, Habilidades, Atitudes)</h3>
+            <ul>
+                <li><strong>Conhecimentos:</strong> Gestão, Finanças, Marketing e Legislação.</li>
+                <li><strong>Habilidades:</strong> Liderança, Comunicação assertiva, Negociação.</li>
+                <li><strong>Competências:</strong> Visão empreendedora, Criatividade, Resiliência.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>12. Facilidades vs. Dificuldades</h2>
+            <div class="table-container">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Facilidades (Prós)</th>
+                            <th>Dificuldades (Contras)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Autonomia e Independência</td>
+                            <td>Alta responsabilidade e risco financeiro</td>
+                        </tr>
+                        <tr>
+                            <td>Liberdade para criar e inovar</td>
+                            <td>Longas jornadas de trabalho</td>
+                        </tr>
+                        <tr>
+                            <td>Potencial de altos ganhos</td>
+                            <td>Burocracia elevada e impostos</td>
+                        </tr>
+                        <tr>
+                            <td>Flexibilidade (eventual)</td>
+                            <td>Gestão de crises e conflitos</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Estudo de Caso (Entrevista)</h2>
+            <p style="margin-bottom: 20px; font-size: 0.9rem; border-left: 3px solid var(--accent-color); padding-left: 10px;">
+                Entrevista realizada com empresário do setor de distribuição de bebidas/logística.
+                <br><em>Clique nas perguntas para expandir as respostas.</em>
+            </p>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Qual é o principal diferencial da sua empresa?
+                    <span class="icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>O nosso principal diferencial é a agilidade na entrega, o estoque sempre atualizado e a variedade de marcas. Trabalhamos com preços competitivos e atendimento personalizado, focado em bares e eventos.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Como você valida novas ideias ou oportunidades?
+                    <span class="icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Observo a demanda dos clientes e tendências de consumo. Testo novos produtos em pequenas quantidades para medir aceitação antes de fazer grandes expansões de estoque.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Quais estratégias utiliza para atrair clientes?
+                    <span class="icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Promoções inteligentes, combos para eventos e entrega rápida. O atendimento humanizado no WhatsApp e Instagram ajuda a fidelizar, além de um pós-venda ativo.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Como lida com a concorrência?
+                    <span class="icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Acompanho preços e serviços, mas mantenho foco no meu padrão. Negociações fortes com fornecedores garantem preço, e a constância na entrega gera confiança no cliente.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Que indicadores (KPIs) são mais importantes?
+                    <span class="icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Giro de estoque, margem de lucro por produto, volume de vendas, ticket médio, custos logísticos e taxa de recompra.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Desenvolvido por Eduardo Santana | Projeto ADS 2025</p>
+    </footer>
+
+    <button onclick="topFunction()" id="backToTop" title="Voltar ao topo">↑</button>
+
+    <script>
+        /* =========================================
+           JAVASCRIPT (INTERATIVIDADE)
